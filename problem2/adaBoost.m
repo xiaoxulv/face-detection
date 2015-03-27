@@ -30,7 +30,6 @@ minthresh = repmat(minthresh,round,1);
 
 for r = 1:round
     minerr = 100;
-    minthresh = 100;
     minapply = zeros(total,1);
     for i = 1:10 % for 10 eigenfaces
         maxV = max(W(i,:));
@@ -53,7 +52,7 @@ for r = 1:round
             % update minimum error
             if(err < minerr)
                 minerr = err;
-                minthresh = thresh;
+                minthresh(r) = thresh;
                 mineigen(r) = i;
                 minapply = apply;
             end 
