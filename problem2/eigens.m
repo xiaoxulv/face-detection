@@ -17,18 +17,14 @@ function E = eigens(location,facesize)
     end
 
     [U,~,~] = svd(Y,0);
-    eigenfaces = cell(10,1);
+    E = zeros(facesize*facesize, 10);
     for i = 1:10
         eigenfacevectors = U(:,i);
         %[nrows, ncolumns] = size(images{i});
         eigenfacevectors=reshape(eigenfacevectors,[64 64]);
         t = imresize(eigenfacevectors, [facesize, facesize]);% resize here
         %eigenfaces{i} = reshape(t, facesize*facesize,1);
-        eigenfaces{i}=t(:);
+        E(:,i) = t(:);
     end
-    
-    E = [];
-    for i = 1:10
-        E = [E eigenfaces{i}(:)];
-    end
+  
 end
