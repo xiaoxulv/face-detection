@@ -56,6 +56,7 @@ for i = size(Wf,2)+1:size(Wnf,2)
     end
 end
 rate2 = count2/size(Wnf,2);
+rate = (count1+count2)/size(W,2);
 
 beep;
         
