@@ -7,7 +7,9 @@ function E = eigens(location,facesize)
         path = strcat(location, fileNames(i).name);
         x = double(imread(path));
         x = x - mean(x(:));% mean normalization
-        x = x / norm(x(:));% variance normalization
+        if norm(x(:)) ~= 0
+            x = x / norm(x(:));% variance normalization
+        end
         images{i} = x;
     end
     % compose matrix from faces collection

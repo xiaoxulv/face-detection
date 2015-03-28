@@ -6,7 +6,9 @@ function [F,facesize] = face(location)
         path = strcat(location, fileNames(i).name);
         x = double(imread(path));
         x = x - mean(x(:));
-        x = x / norm(x(:));
+        if norm(x(:)) ~= 0
+            x = x / norm(x(:));% variance normalization
+        end
         images{i} = x;
         facesize = size(x,1);
     end

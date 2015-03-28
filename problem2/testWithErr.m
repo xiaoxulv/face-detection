@@ -6,9 +6,14 @@
 
 [testface, ~] = face('BoostingData/test/face/');
 [testnonface,~] = face('BoostingData/test/non-face/');
+
 Wf = pinv(E)*testface;
 Wnf = pinv(E)*testnonface;
-W = [Wf Wnf];
+W = [Wf Wnf];% previous feature matrix
+
+newface = E*Wf;
+newnonface = E*Wnf;
+
 num = size(W,2);
 val = zeros(num,1);
 res = zeros(num,1);
