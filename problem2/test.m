@@ -2,7 +2,7 @@
 % E = eigens(location,19);
 
 % train to get strong classifier from weak classifiers
-[E,mineigen,minthresh,alpha] = adaBoost();
+[E,mineigen,minthresh,alpha,sign] = adaBoost();
 
 [testface, ~] = face('BoostingData/test/face/');
 [testnonface,~] = face('BoostingData/test/non-face/');
@@ -19,16 +19,24 @@ for i = 1:size(mineigen,1)
     e = mineigen(i);
     a = alpha(i); 
     for j = 1:num
-        if W(i,j) > minthresh(i)
-            val(j) = val(j) + a;
+        if sign(i) == 1
+            if W(i,j) > minthresh(i)
+                val(j) = val(j) + a;
+            else
+                val(j) = val(j) - a;
+            end
         else
-            val(j) = val(j) - a;
+            if W(i,j) < minthresh(i)
+                val(j) = val(j) + a;
+            else
+                val(j) = val(j) - a;
+            end
         end
     end
 end
 
 for i = 1:num
-    if res(i) > 0
+    if val(i) > 0
         res(i) = 1;
     else
         res(i) = 0;

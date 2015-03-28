@@ -17,10 +17,9 @@ function [E,mineigen,minthresh,alpha,sign]= adaBoost()
         Wf(i,:) = pinv(E(:,i))*F;
         Wnf(i,:) = pinv(E(:,i))*NF;
         F = F - E(:,i)*Wf(i,:);
-        NF = NF - E(:,i)*Wnf(i,:);
+        NF = NF - E*Wnf;
     end
-    W = [Wf Wnf];
-    
+
     fnum = size(Wf,2);
     nnum = size(Wnf,2);
     total = size(W,2);
