@@ -20,13 +20,13 @@ for i = 1:size(mineigen,1)
     a = alpha(i); 
     for j = 1:num
         if sign(i) == 1
-            if W(i,j) > minthresh(i)
+            if W(e,j) > minthresh(i)
                 val(j) = val(j) + a;
             else
                 val(j) = val(j) - a;
             end
         else
-            if W(i,j) < minthresh(i)
+            if W(e,j) < minthresh(i)
                 val(j) = val(j) + a;
             else
                 val(j) = val(j) - a;
@@ -36,7 +36,7 @@ for i = 1:size(mineigen,1)
 end
 
 for i = 1:num
-    if val(i) > 0
+    if val(i) > -1.3 % shift here...
         res(i) = 1;
     else
         res(i) = 0;

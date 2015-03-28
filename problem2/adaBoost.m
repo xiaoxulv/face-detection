@@ -65,7 +65,7 @@ function [E,mineigen,minthresh,alpha,sign]= adaBoost()
                 if err > 0.5
                     err = 1 - err;
                     b = 1;
-                    apply~=1;
+                    apply = apply~=1;
                 end
                 % update minimum error
                 if err < minerr
@@ -75,6 +75,8 @@ function [E,mineigen,minthresh,alpha,sign]= adaBoost()
                     minapply = apply;
                     if b == 1
                         sign(r) = -1;
+                    else
+                        sign(r) = 1;
                     end
                 end 
             end
