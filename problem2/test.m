@@ -6,9 +6,19 @@
 
 [testface, ~] = face('BoostingData/test/face/');
 [testnonface,~] = face('BoostingData/test/non-face/');
-Wf = pinv(E)*testface;
-Wnf = pinv(E)*testnonface;
+% Wf = pinv(E)*testface;
+% Wnf = pinv(E)*testnonface;
+% W = [Wf Wnf];
+Wf = zeros(size(E,2), size(F,2));
+Wnf = zeros(size(E,2), size(NF,2));
+for i = 1:size(E,2)
+    Wf(i,:) = pinv(E(:,i))*F;
+    Wnf(i,:) = pinv(E(:,i))*NF;
+    F = F - E(:,i)*Wf(i,:);
+    NF = NF - E(:,i)*Wnf(i,:);
+end
 W = [Wf Wnf];
+
 num = size(W,2);
 val = zeros(num,1);
 res = zeros(num,1);
