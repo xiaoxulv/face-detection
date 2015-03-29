@@ -9,13 +9,14 @@
 % Wf = pinv(E)*testface;
 % Wnf = pinv(E)*testnonface;
 % W = [Wf Wnf];
-Wf = zeros(size(E,2), size(F,2));
-Wnf = zeros(size(E,2), size(NF,2));
+
+Wf = zeros(size(E,2), size(testface,2));
+Wnf = zeros(size(E,2), size(testnonface,2));
 for i = 1:size(E,2)
-    Wf(i,:) = pinv(E(:,i))*F;
-    Wnf(i,:) = pinv(E(:,i))*NF;
-    F = F - E(:,i)*Wf(i,:);
-    NF = NF - E(:,i)*Wnf(i,:);
+    Wf(i,:) = pinv(E(:,i))*testface;
+    Wnf(i,:) = pinv(E(:,i))*testnonface;
+    testface = testface - E(:,i)*Wf(i,:);
+    testnonface = testnonface - E(:,i)*Wnf(i,:);
 end
 W = [Wf Wnf];
 
@@ -46,7 +47,7 @@ for i = 1:size(mineigen,1)
 end
 
 for i = 1:num
-    if val(i) > -1.3 % shift here...
+    if val(i) > -1.2 % shift here...
         res(i) = 1;
     else
         res(i) = 0;
