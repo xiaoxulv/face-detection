@@ -2,7 +2,7 @@
 % E = eigens(location,19);
 
 % train to get strong classifier from weak classifiers
-witherr = 0;% if with error in feacher matrix
+witherr = 1;% if with error in feacher matrix
 [E,mineigen,minthresh,alpha,sign] = adaBoost(witherr);
 
 [testface, ~] = face('BoostingData/test/face/');

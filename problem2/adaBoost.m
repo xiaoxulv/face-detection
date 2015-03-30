@@ -1,11 +1,13 @@
 function [E,mineigen,minthresh,alpha,sign]= adaBoost(witherr)
     facelocation = 'BoostingData/train/face/';
-    [F,facesize] = face(facelocation);
+    %[F,facesize] = face(facelocation);
+    [F,~] = face(facelocation);
     nonfacelocation = 'BoostingData/train/non-face/';
     [NF,~] = face(nonfacelocation);
 
     location = 'lfw1000/';
-    E = eigens(location,facesize);
+    %E = eigens(location,facesize);
+    E = eigens(location, 64);
     % !!!!!!!!!!!!!!!!!!!!Wrong!!!!!!!!!!!!!!!!!
     % weight of eigenfaces in face and non-face
     % Wf = pinv(E)*F;

@@ -6,7 +6,7 @@ image1 = showImage(path1);
 imagesc(image1);
 for i = 1:length(scail)
     patchscore = detect(image1, scail(i));
-    location = maxdraw(patchscore, scail(i));
+    location = maxLocation(patchscore, scail(i));
     for j = 1:size(location,1)
         rectangle('Position',[location(j,:),64,64],'LineWidth',2,'EdgeColor','r');
     end
