@@ -1,31 +1,26 @@
-% location = 'lfw1000/';
-% E = eigens(location,19);
+location = 'lfw1000/';
+E = eigens(location,19);
 
 % train to get strong classifier from weak classifiers
-[E,mineigen,minthresh,alpha] = adaBoost();
+%[E,mineigen,minthresh,alpha] = adaBoost();
 
 [testface, ~] = face('BoostingData/test/face/');
 [testnonface,~] = face('BoostingData/test/non-face/');
 
 Wf = zeros(size(E,2), size(testface,2));
 Wnf = zeros(size(E,2), size(testnonface,2));
+originNonFace = testnonface;
+originFace = testface;
 for i = 1:size(E,2)
-    Wf(i,:) = pinv(E(:,i))*testface;
-    Wnf(i,:) = pinv(E(:,i))*testnonface;
+    Wf(i,:) = pinv(E(:,i)) * testface;
+    Wnf(i,:) = pinv(E(:,i)) * testnonface;
     testface = testface - E(:,i)*Wf(i,:);
     testnonface = testnonface - E(:,i)*Wnf(i,:);
 end
-W = [Wf Wnf];
 
 
-
-newface = E*Wf;
-newnonface = E*Wnf;
-
-errface = (testface - newface).^2;
-errnonface = (testnonface - newnonface).^2;
-ef = sum(errface)/size(errface,1);
-enf = sum(errnonface)/size(errnonface,1);
+ef = sum(testface.^2)/size(testface,1);
+enf = sum(testnonface.^2)/size(testnonface,1);
 
 
 num = size(W,2);

@@ -1,4 +1,4 @@
-function [E,mineigen,minthresh,alpha,sign]= adaBoost()
+function [E,mineigen,minthresh,alpha,sign]= adaBoost(witherr)
     facelocation = 'BoostingData/train/face/';
     [F,facesize] = face(facelocation);
     nonfacelocation = 'BoostingData/train/non-face/';
@@ -20,7 +20,14 @@ function [E,mineigen,minthresh,alpha,sign]= adaBoost()
         NF = NF - E(:,i)*Wnf(i,:);
     end
     W = [Wf Wnf];
-    
+
+    if witherr == 1
+        ef = sum(F.^2)/size(F,1);
+        enf = sum(NF.^2)/size(NF,1);
+        e = [ef enf];
+        W = [W;e];
+    end
+
     fnum = size(Wf,2);
     nnum = size(Wnf,2);
     total = size(W,2);
@@ -42,7 +49,7 @@ function [E,mineigen,minthresh,alpha,sign]= adaBoost()
     for r = 1:round
         minerr = 100;
         minapply = zeros(total,1);
-        for i = 1:10 % for 10 eigenfaces
+        for i = 1:size(W,1) % for 20 eigenfaces
             maxV = max(W(i,:));
             minV = min(W(i,:));
             unit1 = (maxV-minV)/100;

@@ -2,7 +2,8 @@
 % E = eigens(location,19);
 
 % train to get strong classifier from weak classifiers
-[E,mineigen,minthresh,alpha,sign] = adaBoost();
+witherr = 0;% if with error in feacher matrix
+[E,mineigen,minthresh,alpha,sign] = adaBoost(witherr);
 
 [testface, ~] = face('BoostingData/test/face/');
 [testnonface,~] = face('BoostingData/test/non-face/');
@@ -19,6 +20,13 @@ for i = 1:size(E,2)
     testnonface = testnonface - E(:,i)*Wnf(i,:);
 end
 W = [Wf Wnf];
+
+if witherr == 1
+    ef = sum(testface.^2)/size(testface,1);
+    enf = sum(testnonface.^2)/size(testnonface,1);
+    e = [ef enf];
+    W = [W;e];
+end
 
 num = size(W,2);
 val = zeros(num,1);
@@ -47,7 +55,7 @@ for i = 1:size(mineigen,1)
 end
 
 for i = 1:num
-    if val(i) > -1.2 % shift here...
+    if val(i) > -1.25 % shift here...
         res(i) = 1;
     else
         res(i) = 0;

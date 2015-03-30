@@ -5,7 +5,8 @@ function E = eigens(location,facesize)
     images = cell(len,1);
     for i = 1:len
         path = strcat(location, fileNames(i).name);
-        x = double(imread(path));
+        %x = double(imread(path));
+        x = double(histeq(imread(path)));
         x = x - mean(x(:));% mean normalization
         if norm(x(:)) ~= 0
             x = x / norm(x(:));% variance normalization
@@ -19,8 +20,8 @@ function E = eigens(location,facesize)
     end
 
     [U,~,~] = svd(Y,0);
-    E = zeros(facesize*facesize, 10);
-    for i = 1:10
+    E = zeros(facesize*facesize, 20);
+    for i = 1:20
         eigenfacevectors = U(:,i);
         %[nrows, ncolumns] = size(images{i});
         eigenfacevectors = reshape(eigenfacevectors,[64 64]);
